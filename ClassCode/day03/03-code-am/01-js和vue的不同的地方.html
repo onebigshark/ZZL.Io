@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>js实现</h1>
+    <p id="p1"></p>
+    <button id="btn" onclick="fn()">年龄增加</button>
+    <script>
+      let obj = {
+        age: 10,
+        name: "张三",
+      };
+      /* 
+        需求：把对象的信息展示 p标签之内 
+      */
+      /* 
+      1-种  原生js---操作dom
+        jquery=>封装了js的dom操作，简化dom操作（封装了浏览器兼容性处理）
+        $('#p1').html('aaa')
+     */
+      let p1 = document.querySelector("#p1");
+      p1.innerHTML = `姓名是${obj.name},年龄是${obj.age}`;
+      let btn = document.querySelector("#btn");
+      //   btn.onclick = function () {
+      //     //修改数据以后，重新 操作dom
+      //     obj.age++;
+      //     p1.innerHTML = `姓名是${obj.name},年龄是${obj.age}`;
+      //   };
+      function fn() {
+        obj.age++;
+        p1.innerHTML = `姓名是${obj.name},年龄是${obj.age}`;
+      }
+    </script>
+
+    <div id="box">
+      <h1>vue实现</h1>
+      <!-- 双大括号中可以直接使用 data中定义变量 -->
+      <!-- html代码，在vue中 模板 -->
+      <!-- 模板语法 -->
+      {{zhangsan.name}}
+      <p>姓名是 {{zhangsan.name}},年龄是 {{zhangsan.age}}</p>
+
+      <!-- vue中添加 点击事件 -->
+      <!-- add函数必须定义到 methods配置项中  -->
+      <button @click="add()">年龄增加按钮</button>
+    </div>
+
+    <!-- 通过 CDN 使用 Vue -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+      /* 
+      2种- vue框架  
+        https://cn.vuejs.org/
+        
+        引入vue文件以后，提供一个全局变量Vue
+      */
+
+      //选项式写法-》配置 对象的属性名和属性值--》配置项
+      Vue.createApp({
+        //data是配置项 是一个函数，函数返回一个对象
+        //数据--》返回的对象中可以定义 页面中需要的数据--变量
+        data: function () {
+          return {
+            //定义了一个变量，zhangsan，值为一个对象
+            zhangsan: { name: "张三", age: 18 },
+          };
+        },
+        // methods是一个对象，对象中定义我们vue中需要的所有函数
+        methods: {
+          add() {
+            console.log("add");
+            // 修改数据->this.变量名 就可以使用到data定义的变量
+            this.zhangsan.age++;
+            // 操作dom(vue底层自动做的)
+            //vue底层 监听对象的属性的修改，一旦监听到 程序员修改对象的属性，vue自动修改dom
+          },
+        },
+      })
+        //让vue代码和 #box的div 有关系==在vue配置项定义的 data可以直接在div中使用
+        .mount("#box");
+    </script>
+  </body>
+</html>
