@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function wait(t) {
+        return new Promise(function (resolve, reject) {
+          setTimeout(() => {
+            // resolve(t);
+            reject(t);
+          }, t);
+        });
+      }
+
+      // async - await 是 回调地狱 终极方案（配合promise使用）
+      /* 
+           await 只能用到一个被async 修饰的函数内
+
+           async-异步，，await 异步的等
+
+         
+      
+      */
+      console.log("hello"); ////同步
+      async function box() {
+        console.log(1); //同步
+        //第一个await之前的代码都是同步，第一个await以后的都是异步
+        // await promise对象1; await会等promise对象成功以后，再往下走
+        // await promise对象2; await会等promise对象成功以后，再往下走
+        // 使用async 和 await 后，等于把异步嵌套的代码，改变成顺序同步执行的代码
+        // **await 前面的返回值就是后面promise成功的结果
+        let r = await wait(2000); //异步
+        console.log("红", r);
+        let r2 = await wait(3000);
+        console.log("绿", r2);
+
+        let r3 = await wait(4000);
+        console.log("黄", r3);
+        // box(); //递归
+      }
+      box();
+      console.log("world"); ////同步
+      //   p1.then(function(){
+      //     p2
+      //   })
+
+      //------await只能等后面的promise成功以后才会往下走（不能捕获失败）
+
+      //   try 尝试  catch 捕捉
+      console.log("try");
+
+      //   let obj = { name };
+      //     Cannot set properties of undefined (setting 'age'
+      //   不能      设置  属性 of undefined （正在设置age属性）
+      //   不能undefined的age属性
+      //   obj.child.age = 1;
+      //   console.log(111);
+      try {
+        console.log("");
+        // 尝试执行这里面的代码
+        let obj = { name };
+        obj.child.age = 1; //报错的时候，js会 创建一个错误对象 new Eroor（'错误原因'）
+        console.log("try");
+      } catch (error) {
+        // 如果失败就会执行这里
+        // error 会得到失败的原因
+        console.log("catch");
+        console.log(error);
+      }
+    </script>
+  </body>
+</html>

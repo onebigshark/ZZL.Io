@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /* 
+            promise 本质 是一个状态机（对象），（记录异步状态的）
+                一个创建promsie立刻就会处于 ，pending 进行中
+                    一旦调用rosolve ，就改变为  fulfilled 完成状态
+                    一旦调用reject ，就改变为  rejected  失败状态
+
+                 并且这个状态是不可逆 
+                        进行中-》完成
+                        进行中-》失败   
+        */
+      console.log(1);
+      let p = new Promise(function (resolve, reject) {
+        //同步*****
+        console.log(2);
+        setTimeout(() => {
+          //异步
+          console.log(3);
+          resolve(1000);
+          //   reject(2000);
+        }, 2000);
+      });
+      //同步
+      console.log(4);
+      p.then(function (r) {
+        //异步--》异步的微任务
+        console.log("then");
+        // console.log(p);
+        // console.log(r);
+        console.log(5);
+      }).catch(function () {
+        //异步
+        console.log("catch");
+        console.log(p);
+      });
+      //同步
+      console.log(6);
+
+      //   class Promise {
+      //     result = "";
+      //     state = "pending";
+      //     constructor(fn) {
+      //       //   fn(resolve, reject);
+      //     }
+      //     then() {}
+      //     catch() {}
+      //   }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /* 
+            拷贝一个对象，
+                分深拷贝和浅拷贝
+
+               深拷贝，是一个对象 完全 复制一份，所有的东西都是新的
+               
+               浅拷贝，对象最外层是一个新对象，内层的属性值对象是直接拿原来的地址使用了
+
+
+        */
+      let obj = {
+        name: "张三",
+        age: 28,
+        child: {
+          name: "张三锋",
+          age: 1,
+        },
+      };
+
+      // 定义了新的变量，保存原来变量中地址 --这不叫拷贝
+      //   let obj2 = obj;
+
+      //下面代码相当于深拷贝
+      let obj2 = {};
+      obj2.name = obj.name;
+      obj2.age = obj.age;
+
+      //地址传递--》浅拷贝
+      //   obj2.child = obj.child;
+
+      //如果深层的属性值是一个对象，我们新创建一个对象，保存原来深层对象的属性，这样做叫深拷贝
+      obj2.child = {};
+      obj2.child.name = obj.child.name;
+      obj2.child.age = obj.child.age;
+
+      console.log(obj);
+      console.log(obj2);
+
+      //地址不一样
+      //最外层对象地址不一样
+      console.log(obj === obj2); //false
+
+      //false-深拷贝
+      //true--浅拷贝
+      console.log(obj.child === obj2.child);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /*
+              列表页面进入详情页面--一般都是在跳转的时候，传入一个 id（商品id）
+                   跳转地址中传入搜索参数
+                       <a href="./04-详情页.html?id=${v.goods_id}">
+
+
+                商品详情页面，调用 获取商品信息接口，获取商品信息，展示到页面中
+
+                  怎么获取当前页面url中搜索参数？
+
+          */
+      console.log(location.search); //?id=916
+
+      //   ?id=916&a=2--> 怎么提取出 id后面的值
+      //   let key = "id";
+      //   let value;
+      function getValue(key) {}
+      let v = getValue("id");
+      console.log(v);
+
+      /*
+               1-自己封装函数--处理--自己尝试写
+               2-
+        */
+      //URLSearchParams ---工具类---完成了一个小功能
+
+      //提取搜索串种内容
+
+      let obj = new URLSearchParams(location.search);
+      // id=916&a=2 -》对象，调用对象的方法可以获取对应的value值
+      let value = obj.get("id");
+      console.log(value); //916
+
+      //把对象转为搜索串
+      let obj2 = new URLSearchParams({ a: 1, b: 1 });
+      console.log(obj2.toString()); //a=1&b=1
+    </script>
+  </body>
+</html>

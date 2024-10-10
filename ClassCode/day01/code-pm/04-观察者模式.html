@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button>按钮</button>
+    <script>
+      /* 
+            观察者模式  
+                常见的设计模式
+                后面会学一个第三方库
+                之前也学过这种设计模式的应用
+
+
+                btn -》 dom元素上有一个 数组 存了 某一个事件的所有的回调函数
+                    click ： [fn1,fn2]
+                    mousedown ： [fn3,fn4]
+
+
+
+                btn.addEventListener('click', function () {
+                    console.log('btn 被点击了1')
+                })
+
+                 btn.addEventListener('click', function () {
+                    console.log('btn 被点击了1')
+                })
+
+
+        */
+      let btn = document.querySelector("button");
+
+      //dom元素上有一个对象  {click:[fn1,f2]}
+      //当我们调用添加观察的方法时候，会在内部对象上添加一个属性（事件名），属性值是一个数组，存所有的回调函数
+      //1--添加观察者
+      //作为参数的函数-一般叫回调函数
+
+      //如果是第一次调用，给这内部对象，增加click属性，属性值是一个数组，数组方法第一个回调函数
+      //dom元素上有一个对象  {click:[fn1]}
+      btn.addEventListener("click", function () {
+        console.log("click1 回调函数");
+      });
+
+      let fn2 = function () {
+        console.log("click2 回调函数");
+      };
+
+      //作为参数的函数-传入是函数名--函数的地址
+      //如果不是第一次调用，找到对应的事件的数组，添加到元素
+      btn.addEventListener("click", fn2);
+
+      //2-移出观察者
+      //这样可以移除
+      //   btn.removeEventListener("click", fn2);
+      //下面的写法为什么不能移除？
+      //函数在js中也是一个对象，每次使用function 定义函数的时候，都是新创建的了一个函数对象，等同于 new Function(),下面的函数和上面定义的函数地址一定不一样
+      //   btn.removeEventListener("click", function () {
+      //     console.log("click1 赵子龙9_27");
+      //   });
+
+      //   3- 通知所有的观察者
+      //遍历对应事件 的数组，调用数组中所有函数
+      setTimeout(() => {
+        btn.dispatchEvent(new Event("click"));
+      }, 2000);
+    </script>
+  </body>
+</html>

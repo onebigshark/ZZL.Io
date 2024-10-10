@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="text" name="" id="ipt" />
+    <ul>
+      <!-- <li>
+        <input type="checkbox" name="" id="" />
+        啊啊啊 <button>删除</button>
+      </li> -->
+    </ul>
+    <script>
+      /* 
+            按下enter 的时候，
+
+
+            数据驱动页面--- 用对象或者数组中放对象， 用对象记录列表中数据
+        
+        */
+
+      let arr = [
+        // {
+        //   title: "你好",
+        //   time: "今天",
+        //   completed: false,
+        // },
+        // {
+        //   title: "你好2",
+        //   time: "今天22",
+        //   completed: false,
+        // },
+      ];
+
+      let ipt = document.querySelector("#ipt");
+      ipt.onkeydown = (e) => {
+        if (e.keyCode == 13) {
+          //发布操作
+          console.log("keyCode");
+          //1-创建数据对象，数据对象添加到数组中
+          //2-遍历数组-产生页面结构，赋值 给 ul.innerHTML (重新渲染数据到页面中)
+
+          //  1-
+          //   Date.now() 获取当前时间的时间戳--静态的方法
+          let obj = { title: ipt.value, time: Date.now(), completed: false };
+          arr.push(obj);
+
+          //2-
+          let allLiStr = "";
+          arr.forEach((v) => {
+            //循环一次得到一个li字符串，累加到allLiStr
+            let liStr = `
+               <li>
+                    <input type="checkbox" name="" id=""  ${
+                      v.completed ? "checked" : ""
+                    }/>
+                    ${v.title}
+                    <p>${v.time}</p>
+                     <button>删除</button>
+                </li>
+            `;
+            allLiStr += liStr;
+          });
+          //循环结束--allLiStr 保存所有li字符串
+          document.querySelector("ul").innerHTML = allLiStr;
+        }
+      };
+    </script>
+  </body>
+</html>

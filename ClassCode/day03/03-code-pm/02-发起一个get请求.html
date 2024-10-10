@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    hello
+    <p></p>
+    <script>
+      /* 
+            请求的时候需要调用后端提供的接口（请求作用，请求地址，请求方法，请求参数，返回数据）（后端提供接口文档）
+
+
+            js中 nodejs 执行环境，让js脱离浏览器，让js做后端，提供接口
+                1-直接访问我的电脑 
+                    192.168.15.224
+                     http://localhost:8888
+                    localhost -127.0.0.1 都是指当前电脑
+                2-把后端代码运行到自己电脑上，跑起来，自己电脑就是一台服务器    
+
+        */
+
+      // let url = 'http://localhost:8888'
+      //学会 接口文档（如果接口文档不详细，跟后端沟通）
+      let url = "http://192.168.15.224:8888/test/second";
+      let method = "GET";
+
+      console.log(1);
+      // 1-创建xhr对象
+      let xhr = new XMLHttpRequest();
+      //2-调用open传入请求方式和请求地址
+      xhr.open(method, url);
+      //3-发起请求
+      //   xhr.send(参数-请求体);
+      //get请求没有请求体，什么都不用传
+      xhr.send();
+      //4-监听请求完成事件--》请求完成的回调函数
+      xhr.onload = function () {
+        console.log("onload 请求成功的回调函数-异步-宏任务");
+        //请求的状态码
+        console.log(xhr.status);
+        if (xhr.status == 200) {
+          //请求成功
+          //responseText 响应文本--服务器返回的数据 json
+          console.log(xhr.responseText);
+          //5-json字符串转为js对象
+          let obj = JSON.parse(xhr.responseText);
+          console.log(obj);
+          console.log(obj.message);
+          document.querySelector("p").innerHTML = obj.message;
+        }
+      };
+      console.log(2);
+    </script>
+  </body>
+</html>

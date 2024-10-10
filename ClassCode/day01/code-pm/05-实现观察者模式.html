@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //事件总线--一个观察者模式的实现，用来处理 事件监听，移除，触发（统一管理事件）
+      class EventBus {
+        obj = {};
+        //dom元素上有一个对象  {click:[fn1,f2]}
+        //当我们调用添加观察的方法时候，会在内部对象上添加一个属性（事件名），属性值是一个数组，存所有的回调函数
+
+        //  如果是第一次调用，给这内部对象，增加click属性，属性值是一个数组，数组方法第一个回调函数
+        //    如果不是第一次调用，找到对应的事件的数组，添加到元素
+        addEventListenter(eventName, eventCallback) {
+          //判断是否是 对应的事件，是否在 obj上，
+          //   如果不在，添加一个事件名作为属性名，属性值是一个数组，数组中存回调函数
+          //   ？怎么判断一个对象上是否存在某一个属性
+          //判断变量的值，是否作为属性名存在于这个对象上
+          this.obj[eventName];
+          if (this.obj[eventName] === undefined) {
+            //如果不在，添加一个事件名作为属性名，属性值是一个数组，数组中存回调函数
+            this.obj[eventName] = [eventCallback];
+          } else {
+            // 如果在，找到对应的事件的数组，添加到元素
+            this.obj[eventName].push(eventCallback);
+          }
+          console.log(this.obj);
+        }
+        removeEventListenter(eventName, eventCallback) {
+          //   移除知道这个事件,对应数组,删除数组中对应元素
+          let arr = this.obj[eventName];
+          //找到函数在数组中下标，删除对应下标的元素
+          let index = arr.indexOf(eventCallback);
+          arr.splice(index, 1);
+          console.log(this.obj);
+        }
+        dispatchEvent(eventName, event) {
+          //   找到这个事件,对应数组，遍历所有元素，调用元素
+          let arr = this.obj[eventName];
+          arr.forEach((v) => {
+            //调用回调函数，传入实参
+            v(event);
+          });
+        }
+      }
+      let book = new EventBus();
+
+      book.addEventListenter("挪威的森林", function (e) {
+        console.log("留了电话---一旦书到了，就通知我 1");
+        console.log(e);
+      });
+      let fn2 = function (e) {
+        console.log("留了电话---一旦书到了，就通知我 2 ");
+        console.log(e);
+      };
+      book.addEventListenter("挪威的森林", fn2);
+
+      //   book.removeEventListenter("挪威的森林", fn2);
+
+      setTimeout(() => {
+        //5天后书到了,书店通知所有的观察值
+        book.dispatchEvent("挪威的森林", {
+          title: "挪威的森林",
+          content: "xxxxx",
+          author: "村上春树",
+        });
+      }, 5000);
+    </script>
+
+    <script src="https://unpkg.com/mitt/dist/mitt.umd.js"></script>
+    <script>
+      // https://github.com/developit/mitt
+      const emitter = mitt();
+
+      // listen to an event
+      emitter.on("foo", (e) => console.log("foo", e));
+      setTimeout(() => {
+        // fire an event
+        emitter.emit("foo", { a: "b" });
+      }, 1000);
+    </script>
+  </body>
+</html>

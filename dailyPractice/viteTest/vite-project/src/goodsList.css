@@ -1,0 +1,48 @@
+*{
+    margin: 0;
+    padding: 0;
+    outline: none;
+    list-style: none;
+}
+body{
+    background-color: #ededed;
+}
+#box{
+    width: 100%;
+}
+ul{
+    width: 80%;
+    height: 40px;
+    margin: 10px auto;
+    display: flex;
+    background-color:white;
+    border: 1px solid black;
+}
+li{
+    flex: 1;
+    border-left: 1px solid black;
+    text-align: center;
+    line-height: 40px;
+}
+.goods{
+    width: 80%;
+    height: 80px;
+    margin: 10px auto;
+    display: flex;
+    background-color:white;
+}
+img{
+    margin:5px ;
+    height: 70px;
+}
+.goods>li{
+    flex: 1;
+    border-left: none;
+    text-align: center;
+    line-height: 80px;
+}
+.title{
+    height: 0;
+    font-size: 8px;
+    line-break: auto;
+}

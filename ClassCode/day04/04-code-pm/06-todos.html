@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="text" name="" id="" />
+    <button>发布</button>
+    <ul>
+      <!-- <li>
+        <input type="checkbox" name="" id="" />
+        <p></p>
+        <button>删除</button>
+      </li> -->
+    </ul>
+    <script>
+      /* 
+        1-列表
+          调用列表接口-》数组-》结构-li-》ul 
+
+           封装一个函数loadList
+
+         2-发布
+            点击按钮的时候，获取输入框的值 ，调用发布接口，成功以后刷新列表
+         3-删除
+            给删除按钮添加一个点击事件， 行内事件，传入id到删除函数内部    ,调用删除接口，刷新列表
+            
+         4-修改完成状态
+             给checkbox添加一个change事件， 行内事件，传入id到删除函数内部    ,调用删除接口，刷新列表
+               
+      */
+      function loadList() {
+        let url = "http://localhost:3000/todos";
+        let method = "GET";
+        // 变量名跟接口参数一样
+
+        let xhr = new XMLHttpRequest();
+        xhr.open(method, url);
+
+        xhr.send();
+        xhr.onload = function () {
+          console.log("onload");
+          if (/^2/.test(xhr.status)) {
+            let resObj = JSON.parse(xhr.responseText);
+            console.log(resObj);
+            let liArr = resObj.map(
+              (v) => `
+              <li>
+                <input type="checkbox" name="" id="" ${
+                  v.completed ? "checked" : ""
+                } />
+                <p>${v.title}</p>
+                <button onclick="delFn(${v.id})">删除</button>
+              </li>
+            `
+            );
+            console.log(liArr);
+            document.querySelector("ul").innerHTML = liArr.join("");
+          } else {
+            console.log(xhr.status);
+          }
+        };
+      }
+      loadList();
+
+      function delFn(id) {
+        console.log(id);
+      }
+    </script>
+  </body>
+</html>

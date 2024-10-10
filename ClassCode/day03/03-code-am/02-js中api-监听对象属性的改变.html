@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="p1"></div>
+    <script>
+      //Object类上面的静态方法
+
+      //define 定义
+      //Property  属性 属性名 prop  （跟原型prototype不一样）
+
+      //定义对象的属性（监听对象的属性）
+      let obj = { name: "zhangsan", age: 18 };
+      //第一个参数要监听的对象
+      //第二个参数 要监听对象的属性名
+      //第三个蚕食 是 属性描述符 --可以写 getter 和 setter，是两个监听函数
+      //getter -get(){}  监听的回调函数（监听函数） 获取对象的属性值时候会自动执行
+      //setter -set(){}  监听 设置对象的属性值  会自动执行
+      Object.defineProperty(obj, "age", {
+        //
+        get: function () {
+          console.log("getter");
+          //   getter中return 多少，外面获取的值就是多少
+          return 19;
+        },
+        set(v) {
+          console.log("setter");
+          //形参v 获取到要设置的值
+          console.log(v);
+          //vue监听到对象的属性修改，修改dom
+          document.querySelector("#p1").innerHTML = v;
+        },
+      });
+
+      //设置对象的属性值--》setter就会执行
+      obj.age = 10;
+
+      //获取对象的属性值--》getter会执行
+      console.log(obj.age);
+
+      setTimeout(() => {
+        obj.age = 200;
+      }, 1000);
+
+      /* 
+        vue底层实现响应式（修改了数据，页面自动改变）的原理是什么
+          ****利用js中一个api，Object.defineProperty,实现了对属性的监听
+      
+      */
+
+      //   let arr = [1, 2, 3];
+      //   Object.defineProperty(arr, "push", {
+      //     set() {
+      //       console.log("push");
+      //     },
+      //   });
+      //   arr.push(10);
+      //缺点，监听不到调用数据的方法
+
+      //（vue2）vue底层 非常巧妙的设计，实现了对数组方法的监听
+      //覆盖了Array.prototype.push 方法，提供自己的push方法，实现了数组方法的监听
+
+      //先保存原来的push
+      let push = Array.prototype.push;
+      Array.prototype.push = function (...args) {
+        //...args
+        // args 就能获取所有实参--》 [100,200]
+        console.log("vue 中实现的push");
+        //调用原来的push，展开args中所有元素--实参，给push
+        //push（100,200）
+        // this->arr
+        // call把arr传递到原来的push内部
+        push.call(this, ...args);
+      };
+      let arr = [];
+      arr.push(100, 200);
+    </script>
+  </body>
+</html>

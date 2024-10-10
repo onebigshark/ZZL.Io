@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /* 
+            promise的其他方法
+                实例方法
+                    then  promise成功以后  ***
+                    catch  promise失败以后  ***
+                    finally 状态改变以后执行
+                静态方法
+                let p0 = Promise.all([p1,p2,p3])
+                    作用：全部，数组所有的p 都成功了，那么p0 就成功，有一个失败了那么p0就失败了
+                    参数：数组，数组要放一组promise对象
+
+                Promise.race
+                      let p0 = Promise.race([p1,p2,p3])
+                    作用：竞赛，数组所有的p 谁最快，谁先有结果（不管成功还是失败），谁的结果是p0的结果
+                    参数：数组，数组要放一组promise对象
+
+                    创建一个处于成功状态的promsie
+                   Promise、resolve
+                   创建一个处失败状态的promsie
+                   Promise。reject
+
+
+               Promise     
+
+        */
+      let p1 = new Promise(function (r, j) {
+        console.log("promise创建了异步操作开始2000");
+        setTimeout(() => {
+          console.log("异步操作成功 2000");
+          r(2000);
+          //   j(2000);
+        }, 2000);
+      });
+      let p2 = new Promise(function (r, j) {
+        console.log("promise创建了异步操作开始3000");
+
+        setTimeout(() => {
+          console.log("异步操作成功 3000");
+
+          r(3000);
+        }, 3000);
+      });
+      //   let p0 = Promise.all([p1, p2]);
+      let p0 = Promise.race([p1, p2]);
+      p0.then((r) => {
+        console.log("p0成功");
+        // r是一个数组，成功的结果跟 all的参数中p的顺序一致
+        console.log(r); //[2000,3000]
+      }).catch((err) => {
+        console.log("p0失败");
+      });
+
+      //   p1.then((res) => {
+      //     console.log("then");
+      //     console.log(res);
+      //   })
+      //     .catch((err) => {
+      //       console.log("catch");
+      //     })
+      //     .finally(function () {
+      //       console.log(
+      //         " finally 不管是 成功还是，失败，只要调用了resolve或者reject ，就会执行，状态改变  最后执行"
+      //       );
+      //     });
+
+      //静态方法
+
+      //*能把值快速的转为一个promsie对象（成功，失败）
+      //创建一个处于成功状态的promsie
+      let p3 = Promise.resolve(1000);
+      //创建一个处于失败状态的promsie
+      let p4 = Promise.reject(1000);
+      //   let p3 = new Promise((r, j) => {
+      //     r(1000);
+      //   });
+    </script>
+  </body>
+</html>

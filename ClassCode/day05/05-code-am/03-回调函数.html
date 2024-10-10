@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /*
+            回调函数---把一个函数callbackFn  给了另一个函数A， 函数A 内部在适当的时候调用 callbackFn，
+                        实现函数a内部 给 外部传递信息
+
+                        函数a内部如果做的是异步操作，异步操作成功以后，在调用callbackFn， 等于是把异步操作的结果传递给外部
+                        函数a内部如果做的同步操作， 等于把函数内部同步操作的结果传递给外部
+                        也可以传入一个逻辑给到 a函数内部
+
+        */
+      let arr = [9, 8];
+      //参数函数，传递给了forEach内部，forEach调用了 参数函数 两次，传递了实参 元素，元素的下标
+      arr.forEach(function (v, i) {
+        console.log(v, i);
+      });
+      //事件处理函数，也是一种回调函数
+      document.onclick = function () {};
+
+      setTimeout(() => {}, 1000);
+
+      function a(n1, n2, callbackFn) {
+        // 2-
+        // callbackFn =  外部函数的地址
+        // 3-a函数在适当的时候，调用callbackFn--就能通知外部
+        let r = n1 + n2;
+        callbackFn(r);
+      }
+
+      a(1, 2, function (res) {
+        console.log("1-外部定义的回调函数-传递给了a的实参");
+        console.log(res);
+      });
+      //   arr.filter((v) => v > 10);
+    </script>
+  </body>
+</html>

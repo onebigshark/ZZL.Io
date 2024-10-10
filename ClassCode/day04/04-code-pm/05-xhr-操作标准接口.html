@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function post() {
+        let url = "http://localhost:3000/todos";
+        let method = "POST";
+        // 变量名跟接口参数一样
+        let title = "hello";
+        let completed = false;
+        let xhr = new XMLHttpRequest();
+        xhr.open(method, url);
+        xhr.setRequestHeader("content-type", "application/json");
+
+        //变量名会成为属性名，变量值 成为属性值
+        let obj = { title, completed };
+        console.log(obj);
+        xhr.send(JSON.stringify(obj));
+        xhr.onload = function () {
+          if (/^2/.test(xhr.status)) {
+            let resObj = JSON.parse(xhr.responseText);
+            console.log(resObj);
+          }
+        };
+      }
+      //   post();
+
+      function deleteReq(id) {
+        let url = "http://localhost:3000/todos";
+        let method = "DELETE";
+        // 变量名跟接口参数一样
+
+        let xhr = new XMLHttpRequest();
+        xhr.open(method, url + "/" + id);
+        xhr.setRequestHeader("content-type", "application/json");
+
+        xhr.send();
+        xhr.onload = function () {
+          console.log("onload");
+          if (/^2/.test(xhr.status)) {
+            let resObj = JSON.parse(xhr.responseText);
+            console.log(resObj);
+          } else {
+            console.log(xhr.status);
+          }
+        };
+      }
+      //   deleteReq(1);
+
+      function patch(id) {
+        let url = "http://localhost:3000/todos";
+        let method = "PATCH";
+        // 变量名跟接口参数一样
+        let completed = true;
+        let xhr = new XMLHttpRequest();
+        xhr.open(method, url + "/" + id);
+        xhr.setRequestHeader("content-type", "application/json");
+
+        //变量名会成为属性名，变量值 成为属性值
+        let obj = { completed };
+        console.log(obj);
+        xhr.send(JSON.stringify(obj));
+        xhr.onload = function () {
+          if (/^2/.test(xhr.status)) {
+            let resObj = JSON.parse(xhr.responseText);
+            console.log(resObj);
+          }
+        };
+      }
+      //   patch(3);
+
+      function getList() {
+        let url = "http://localhost:3000/todos";
+        let method = "GET";
+        // 变量名跟接口参数一样
+
+        let xhr = new XMLHttpRequest();
+        xhr.open(method, url);
+
+        xhr.send();
+        xhr.onload = function () {
+          console.log("onload");
+          if (/^2/.test(xhr.status)) {
+            let resObj = JSON.parse(xhr.responseText);
+            console.log(resObj);
+          } else {
+            console.log(xhr.status);
+          }
+        };
+      }
+      getList();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    hello
+    <p></p>
+    <script>
+      /* 
+            请求的时候需要调用后端提供的接口（请求作用，请求地址，请求方法，请求参数，返回数据）（后端提供接口文档）
+
+
+            js中 nodejs 执行环境，让js脱离浏览器，让js做后端，提供接口
+                1-直接访问我的电脑 
+                    192.168.15.224
+                     http://localhost:8888
+                    localhost -127.0.0.1 都是指当前电脑
+                2-把后端代码运行到自己电脑上，跑起来，自己电脑就是一台服务器    
+
+        */
+
+      // let url = 'http://localhost:8888'
+      //学会 接口文档（如果接口文档不详细，跟后端沟通）
+
+      //post请求
+      // let url = "http://192.168.15.224:3000/todos";
+      let url = "http://localhost:3000/todos";
+      let method = "POST";
+
+      console.log(1);
+      // 1-创建xhr对象
+      let xhr = new XMLHttpRequest();
+      //2-调用open传入请求方式和请求地址
+      xhr.open(method, url);
+      //3-发起请求
+      //   xhr.send(参数-请求体);
+
+      //post请求，请求参数要放入请求体中，请求体
+      //*******请求体有三种格式 （具体用哪种格式得到接口文档）
+      //1----application/x-www-form-urlencoded
+      //  设置请求头，content-type 值为 application/x-www-form-urlencoded （表单搜索串）
+      // xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
+      // // a=1&b=2   application/x-www-form-urlencoded 这种格式类似于搜索字符串
+      // xhr.send("name=lisi&age=10");
+
+      //2-种
+      // application/json
+      // 请求体中要上传json数据 （具体用哪种格式得到接口文档）
+      xhr.setRequestHeader("content-type", "application/json");
+      let obj = { title: "王五", completed: true };
+      //转为json数据
+      let jsonStr = JSON.stringify(obj);
+      // 设置请求体数据为json数据
+      xhr.send(jsonStr);
+
+      // 3-三种 上传文件
+
+      //4-监听请求完成事件--》请求完成的回调函数
+      xhr.onload = function () {
+        console.log("onload 请求成功的回调函数-异步-宏任务");
+        //请求的状态码
+        console.log(xhr.status);
+        if (/^2/.test(xhr.status)) {
+          //请求成功
+          //responseText 响应文本--服务器返回的数据 json
+          console.log(xhr.responseText);
+          //5-json字符串转为js对象
+          let obj = JSON.parse(xhr.responseText);
+          console.log(obj);
+          console.log(obj.message);
+          document.querySelector("p").innerHTML = obj.message;
+        }
+      };
+      console.log(2);
+
+      xhr.onerror = function () {
+        console.log("请求出错");
+      };
+    </script>
+  </body>
+</html>

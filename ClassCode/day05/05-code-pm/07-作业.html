@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 封装wait 函数-- 自己写一遍
+      //promise- 封装xhr--  四个函数
+      let ajaxP = {};
+      ajaxP.get = function (obj) {
+        //使用promise封装异步操作，
+        // 写一个函数
+        // 函数内部创建一个prmise对象，promise对象里面写异步操作（xhr），成功以后调用resolve，失败以后调用reject
+        // 这个函数内部返回promise对象
+      };
+
+      let p = ajaxP.get({
+        url,
+        search,
+        success,
+        headers: {
+          //登录页面 登录成功以后需要把token存入本地，然后别的页面就可以读取
+          authorization: "token-登录成功以后返回的",
+        },
+      });
+      p.then(function (r) {
+        console.log(r); //r是请求成功以后的结果
+      });
+
+      /* 
+      
+
+
+      此服务器所有需要登录后使用的接口
+
+- 均在 `请求头` 内携带 `authorization` 字段, 传递 `token` 值方可  
+    
+      token**** 是一个登录凭证--登录接口成功以后，后端返回的 一个 加密字符串
+
+        有些接口需要设置 请求头的字段 --`authorization` 字段, 传递 `token` 值方可 
+      
+      */
+    </script>
+  </body>
+</html>

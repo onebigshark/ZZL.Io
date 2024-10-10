@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      class Dog {}
+
+      //单例实现--闭包
+      //   let obj = null;
+      //   (function（）{})（） 立即执行函数
+
+      //一开始立即执行函数执行，定义了局部变量 obj，并且返回一个函数赋值给shareInstance
+      let shareInstance = (function () {
+        let obj = null;
+        //返回一个函数-》 赋值 给 shareInstance 变量
+        return function () {
+          if (obj == null) {
+            obj = new Dog();
+          }
+          return obj;
+        };
+      })();
+
+      //第一次调用shareInstance（上面内部函数），obj虽然是局部变量，但是因为闭包，像是全局变量一样，判断obj是否为null- obj的初始值为null，第一次为null，执行 内部函数中if
+      let d1 = shareInstance();
+
+      //第二次调用，此时obj 第一次执行时候，已经有值了， 所以这次就不为null
+      let d2 = shareInstance();
+
+      console.log(d1);
+      console.log(d2);
+      console.log(d1 == d2);
+    </script>
+  </body>
+</html>

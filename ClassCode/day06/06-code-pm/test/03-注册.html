@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="text" name="" id="" />
+    <input type="text" name="" id="" />
+    <input type="text" name="" id="" />
+    <input type="button" name="" id="" value="注册" />
+    <span></span>
+    <p style="display: none">3秒后自动跳转！ <span id="num"></span></p>
+    <script>
+      /* 
+            注册接口
+                点击注册按钮的时候，获取输入框的值（接口参数），调用注册接口
+        */
+      let ipts = document.querySelectorAll("input");
+      ipts[3].onclick = function () {
+        let username = ipts[0].value;
+        let password = ipts[1].value;
+        let rpassword = ipts[1].value;
+        let nickname = ipts[2].value;
+        let url = "http://localhost:8888/users/register";
+
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", url);
+        xhr.setRequestHeader(
+          "content-type",
+          "application/x-www-form-urlencoded"
+        );
+        xhr.send(
+          `username=${username}&password=${password}&rpassword=${rpassword}&nickname=${nickname}`
+        );
+        xhr.onload = function () {
+          if (xhr.status == 200) {
+            let obj = JSON.parse(xhr.responseText);
+            console.log(obj);
+            let span = document.querySelector("span");
+            span.innerHTML = obj.message;
+
+            if (obj.code == 0) {
+              span.style.color = "red";
+            } else {
+              span.style.color = "green";
+              let num = 3;
+              let numSpan = document.querySelector("#num");
+              numSpan.innerHTML = num;
+              let p = document.querySelector("p");
+              p.style.display = "block";
+              let timer = setInterval(() => {
+                num--;
+                numSpan.innerHTML = num;
+                if (num == 0) {
+                  location.href = "03-登录.html";
+                  clearInterval(timer);
+                }
+              }, 1000);
+            }
+          }
+        };
+      };
+    </script>
+  </body>
+</html>

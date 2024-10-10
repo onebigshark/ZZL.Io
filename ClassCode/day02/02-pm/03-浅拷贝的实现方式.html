@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- 引入cdn 文件 -->
+    <!-- <script src="https://cdn.bootcdn.net/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script> -->
+    <!-- 引入本地的js文件（一般工作中都引入本地的js文件） -->
+    <script src="./js/lodash.min.js"></script>
+  </head>
+  <body>
+    <script>
+      let obj = {
+        name: "张三",
+        age: 28,
+        child: {
+          name: "张三锋",
+          age: 1,
+        },
+      };
+      /*
+            浅拷贝的实现方式
+            1-展开运算符---（常用）
+            2-Object.assgin
+            3-封装一个拷贝函数，遍历对象，把原对象里面的内容都都添加到新对象中
+            4-第三方库 lodash.clone()
+        */
+      // 1-展开运算符---（常用）
+      let obj2 = { ...obj };
+      //   let obj2 = { ...{name:'张三',age:28,child:001} };
+      //   let obj2 = { name:'张三',age:28,child:001 };
+      console.log(obj2);
+      console.log(obj);
+
+      //外层地址不等，内层地址相当--浅拷贝
+      console.log(obj == obj2);
+      console.log(obj.child == obj2.child);
+
+      //  2-Object.assgin 浅拷贝
+      //   Object.assign(target,source)，返回target对象
+      //把后面对象中所有属性都添加到 前面对象中
+      //把obj中所有属性 都添加到 一个新对象 {}，返回了新对象
+      let obj3 = Object.assign({}, obj);
+      console.log(obj3);
+      console.log(obj3 === obj); //false
+      console.log(obj3.child === obj.child); //true
+
+      //   4-第三方库 lodash.clone()
+      //   https://www.lodashjs.com/  JavaScript 实用工具库
+      //   https://www.lodashjs.com/docs/lodash.clone#_clonevalue
+      // 4-1引入 js文件
+      // 4-2  copy 文档
+      let obj4 = _.clone(obj);
+      console.log(obj4);
+      console.log(obj4 == obj);
+      console.log(obj4.child == obj.child);
+
+      //   3-封装一个拷贝函数，遍历对象，把原对象里面的内容都都添加到新对象中
+      function clone(value) {
+        // 遍历对象，把原对象里面的内容都都添加到新对象中
+        let newObj = {};
+        for (let key in value) {
+          //key 属性名
+          //v 属性值
+          let v = value[key];
+
+          newObj[key] = v;
+        }
+        //返回新对象
+        return newObj;
+      }
+      let obj5 = clone(obj);
+
+      console.log(obj5);
+      console.log(obj5 == obj);
+      console.log(obj5.child == obj.child);
+    </script>
+  </body>
+</html>

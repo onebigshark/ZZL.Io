@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /*
+
+            设计模式 ，面试问的比较少，
+
+            实际开发中一般都是根据需求直接写代码
+
+            设计模式 解决某一个特定的问题，给出一个解决方案（前辈们开发项目中总结出来的一种经验）
+
+
+            https://www.runoob.com/design-pattern/design-pattern-tutorial.html
+
+
+            23种设计模式
+        */
+
+      Array;
+      let arr1 = new Array("abc");
+      let arr2 = new Array();
+
+      //原型模式
+      arr1.push;
+      Array.prototype;
+      arr1.__proto__;
+
+      //   简单工厂模式
+      //   它使用一个单独的工厂类来创建不同的对象，根据传入的参数决定创建哪种类型的对象。
+      console.log(document.createElement("p"));
+      console.log(document.createElement("div"));
+      console.log(11);
+
+      //适配器
+      //充当两个不兼容接口之间的桥梁
+
+      //fn要求参数arr是一个 数字数组
+      function fn(arr) {}
+
+      let obj = { a: 1, b: 2 };
+
+      //适配器--将一种数据 转为 另一种 所需的数据
+      function adpter(obj) {
+        let resArr = [];
+        for (let key in obj) {
+          let v = obj[key];
+          resArr.push(v);
+        }
+        return resArr;
+      }
+      //   Object是一个构造函数或者类，类上的方法-叫静态方法或者类方法
+      console.log(Object.keys(obj));
+      console.log(Object.values(obj));
+
+      let a2 = adpter(obj);
+      fn(a2);
+      //   [1, 2];
+
+      let arr3 = new Array();
+      //   push 实例方法（对象方法） --必须先用类或者构造函数创建一个实例对象，然后在实例对象上使用的方法叫实例方法（对象方法）******
+      arr3.push(100);
+      //   类上的方法-叫静态方法或者类方法******
+      //判断参数是不是数组 (Array.isArray)
+      console.log(Array.isArray(obj));
+      console.log(Array.isArray(arr1));
+
+      console.log(typeof obj);
+      console.log(typeof arr1);
+
+      //  对象 instanceof 类 (实例of ，，。。。的实例)
+      //判断 对象是否是这个类的实例
+      console.log(obj instanceof Array);
+      console.log(arr1 instanceof Array);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="text" name="" id="" />
+    <input type="text" name="" id="" />
+    <input type="button" name="" id="" value="登录" />
+    <span></span>
+    <script>
+      /* 
+            登录接口
+                点击登录按钮的时候，获取输入框的值（接口参数），调用登录接口
+        */
+      let ipts = document.querySelectorAll("input");
+      ipts[2].onclick = function () {
+        let username = ipts[0].value;
+        let password = ipts[1].value;
+
+        let url = "http://localhost:8888/users/login";
+
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", url);
+        xhr.setRequestHeader(
+          "content-type",
+          "application/x-www-form-urlencoded"
+        );
+        xhr.send(`username=${username}&password=${password}`);
+        xhr.onload = function () {
+          if (xhr.status == 200) {
+            let obj = JSON.parse(xhr.responseText);
+            console.log(obj);
+            let span = document.querySelector("span");
+            span.innerHTML = obj.message;
+
+            if (obj.code == 0) {
+              span.style.color = "red";
+            } else {
+              span.style.color = "green";
+              setTimeout(() => {
+                location.href = "02-商品列表.html";
+              }, 500);
+            }
+          }
+        };
+      };
+    </script>
+  </body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 单例--》单一实例
+
+      class Dog {
+        //实例方法
+        aa() {}
+        //静态方法
+        static bb() {
+            
+        }
+      }
+      //new Dog ->构造函数内部，创建一个新对象，存入this上，(构造函数内部做了什么事情)
+      //1- this = {}
+      //2-this.__proto__ = Dog.prototype
+      //3-return this
+      let d1 = new Dog();
+      let d2 = new Dog();
+      console.log(d1);
+      console.log(d2);
+      d1.aa();
+      Dog.bb();
+
+      //   false
+      console.log(d1 === d2);
+
+      //单例模式，它确保一个类只有一个实例，并提供了一个全局访问点来访问该实例
+      //类提供一个静态方法，每次调用都得到相同的对象（）
+      //   在静态方法内部，确保 对象只被创建一次，下一次再调用静态方法，直接返回第一次创建的对象
+
+      let d3 = Dog.bb();
+      let d4 = Dog.bb();
+      console.log(d3);
+      //d3 和d4 都是一个条狗，但是是同一个狗
+      console.log(d3 === d4);
+    </script>
+  </body>
+</html>

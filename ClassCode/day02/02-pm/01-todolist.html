@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="text" name="" id="ipt" />
+    <ul>
+      <!-- <li>
+        <input type="checkbox" name="" id="" />
+        啊啊啊 <button>删除</button>
+      </li> -->
+    </ul>
+    <script>
+      /*
+            按下enter 的时候，
+
+
+            数据驱动页面--- 用对象或者数组中放对象， 用对象记录列表中数据
+
+        */
+
+      let arr = [
+        {
+          title: "你好",
+          time: "今天",
+          completed: true,
+        },
+        {
+          title: "你好2",
+          time: "今天22",
+          completed: false,
+        },
+      ];
+
+      loadList();
+
+      let ipt = document.querySelector("#ipt");
+      ipt.onkeydown = (e) => {
+        if (e.keyCode == 13) {
+          //发布操作
+          console.log("keyCode");
+          //1-创建数据对象，数据对象添加到数组中
+          //2-遍历数组-产生页面结构，赋值 给 ul.innerHTML (重新渲染数据到页面中)
+
+          //  1-
+          //   Date.now() 获取当前时间的时间戳--静态的方法
+          let obj = { title: ipt.value, time: Date.now(), completed: false };
+          arr.push(obj);
+
+          // //2-
+          // let allLiStr = "";
+          // arr.forEach((v, i) => {
+          //   //循环一次得到一个li字符串，累加到allLiStr
+          //   let liStr = `
+          //      <li>
+          //           <input type="checkbox" name="" id=""  ${
+          //             v.completed ? "checked" : ""
+          //           }/>
+          //           ${v.title}
+          //           <p>${v.time}</p>
+          //            <button onclick="delFn(${i},this,event);this" data-index="${i}">删除</button>
+          //       </li>
+          //   `;
+          //   allLiStr += liStr;
+          // });
+          // //循环结束--allLiStr 保存所有li字符串
+          // document.querySelector("ul").innerHTML = allLiStr;
+          loadList();
+
+          // 清空输入框;
+          ipt.value = "";
+        }
+      };
+
+      //行内事件--调用的是一个全局函数
+      // <button onclick="delFn(this);this;event">删除</button>
+      //行内事件中this 是 按钮本身
+      // event 事件发生的时候，全局变量event 是对应的事件对象
+
+      function delFn(i, btn, e) {
+        console.log("del");
+        //获取数组中对应的元素的下标
+        console.log(i);
+        //拿到点击的按钮
+        // console.log(this); // window
+        // console.log(btn);
+        // console.log(e.target);
+        // let index = e.target.getAttribute("data-index");
+        // console.log(index);
+        // 根据下标删除数组中元素
+        arr.splice(i, 1);
+        //重新渲染列表
+        loadList();
+      }
+
+      function loadList() {
+        //2-
+        let allLiStr = "";
+        arr.forEach((v, i) => {
+          //循环一次得到一个li字符串，累加到allLiStr
+          let liStr = `
+               <li>
+                    <input type="checkbox" name="" id=""  onchange="changeFn(${i})"  ${
+            v.completed ? "checked" : ""
+          }/>
+                    ${v.title}
+                    <p>${v.time}</p>
+                     <button onclick="delFn(${i},this,event);this" data-index="${i}">删除</button>
+                </li>
+            `;
+          allLiStr += liStr;
+        });
+        //循环结束--allLiStr 保存所有li字符串
+        document.querySelector("ul").innerHTML = allLiStr;
+      }
+
+      // btn.oclick = function(){}
+
+      // 修改完成状态
+      // onchange="changeFn(${i})"
+      function changeFn(i) {
+        console.log(i);
+        //根据下标获取到对象，修改对象的completed属性 ，取反
+        let obj = arr[i];
+        obj.completed = !obj.completed;
+        //刷新列表
+        loadList();
+      }
+    </script>
+  </body>
+</html>

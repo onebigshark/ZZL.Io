@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /* 
+            restfulAPI 接口规范 （后端写的接口文档）
+              使用get请求获取数据
+              使用post请求上传数据
+              使用delete请求删除数据
+              使用put和patch请求修改数据（put是整体更新，patch局部更新）
+
+
+            接口地址  /proudcts
+
+            请求方式
+            get ------一般用户获取数据，
+
+              ---获取一个商品信息(标准的接口)
+                
+                 地址：/proudcts/:pid
+                         :pid 叫动态id（路径参数），实际在用的时候， :pid 得变成一个具体的商品id
+
+                参数pid 
+
+               get   /proudcts/1  获取id为1的商品信息
+
+               ---获取一个商品信息（不规范的接口）
+               /proudcts?pid=1
+
+
+               ---获取列表信息
+              地址： /proudcts
+              方式：Get 
+              参数  pagenum   pagesize
+               上面参数一般都是搜索参数
+
+            post-----一般用于上传数据（发布数据）
+                  接口：发布商品 
+                  地址： /proudcts
+                  方式：POST
+                  参数  title   price 
+                  请求体格式：x-www-form-urlencoded / json
+
+                  参数一般都是入请求体中
+
+                 接口：上传图片
+                  地址： /uploadimg
+                  方式：POST
+                  参数  img  参数值 file 
+                  请求体格式：formData
+                  
+                  参数一般都是入请求体中
+             
+
+            delete----一般用于删除操作
+              接口：删除商品接口
+              地址：/proudcts/:id
+              方式：delete
+              参数：id是商品id
+
+             delete /proudcts/1 
+             删除id为1的商品
+
+
+            put------一般用于更新数据（整体更新）
+            {id:1,title:'小米su7',price:210000}
+            
+
+           put 传入了参数id 和 price 220000 ——》更新以后数据（覆盖了原来的数据）  {id:1,price:210000}、
+
+
+           接口 修改商品
+           地址：/proudcts/:id
+           请求方式:put
+           参数：
+            id 是商品id ，（必选）
+            title 商品名  （可选）  
+            price 商品价格 （可选）
+
+            除了路径参数，其他参数一般都放入请求体中
+
+            put   /proudcts/1  请求体中传入 title：‘aaa’ price:100
+             修改id为1的商品 的title和price
+
+
+
+            patch------一般用于更新数据（局部更新）
+            {id:1,title:'小米su7',price:210000}
+
+            patch 传入了参数id 和 price 220000 ——》更新以后数据（根据id修改price）  {id:1,title:'小米su7',price:220000}
+
+
+
+          接口 修改商品
+           地址：/proudcts/:id
+           请求方式:patch
+           参数：
+            id 是商品id ，（必选）
+            title 商品名  （可选）  
+            price 商品价格 （可选）
+
+            除了路径参数，其他参数一般都放入请求体中
+
+            patch   /proudcts/1  请求体中传入 price:100 
+            修改id为1的商品价格 为 100
+
+
+
+        */
+    </script>
+  </body>
+</html>

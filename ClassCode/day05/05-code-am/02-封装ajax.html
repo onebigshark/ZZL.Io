@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /*
+            封装ajax
+                ---把重复代码写到函数内部，变化的东西作为 参数传入函数内部
+        */
+
+      function ajaxDelete(obj) {
+        console.log("ajaxDelete执行了，传入了实参 fn");
+        console.log(obj.fn);
+        //obj里面保存了实参，fn
+        // fn 里面的代码 就是我们请求成功以后下一步要做的事情、fn什么时候调用？
+        let { url, fn } = obj;
+        // obj.url
+        // obj.method
+        let xhr = new XMLHttpRequest();
+        xhr.open("DELETE", url);
+        xhr.send();
+        xhr.onload = function () {
+          if (xhr.status == 200) {
+            //请求成功以后要做的事情，会改变，
+            //loadList();
+            console.log("删除成功");
+            //fn一旦调用，外部的代码就执行了
+            fn();
+          }
+        };
+      }
+      function fn() {
+        console.log("fn执行");
+        // loadList();
+      }
+
+      //把一个函数作为参数-=叫回调函数
+
+      // ajaxDelete({
+      //   url: "http://localhost:3000/todos/" + 3,
+      //   //把函数作为参数 传入到 ajaxDelete函数内部
+      //   fn: fn,
+      // });
+
+      function ajaxGet(obj) {
+        console.log("ajaxGet执行了，传入了实参 fn");
+        console.log(obj.fn);
+        //obj里面保存了实参，fn
+        // fn 里面的代码 就是我们请求成功以后下一步要做的事情、fn什么时候调用？
+        let { url, fn } = obj;
+        // obj.url
+        // obj.method
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", url);
+        xhr.send();
+        xhr.onload = function () {
+          if (xhr.status == 200) {
+            //请求成功以后要做的事情，会改变，
+            //loadList();
+            console.log("获取成功-解析数据，调用fn，并且给fn传入实参-请求结果");
+            let obj = JSON.parse(xhr.responseText);
+            // obj 获取的数据 --- 传到外部
+            // ****函数内部的异步操作的结果---不能通过return 传入出去
+            //***异步操作的结果怎么才能传出去呢？
+            //**** 回调函数本质就是给外部传递消息--回调函数执行的时候传入实参（请求的结果）
+            // obj;
+            //fn一旦调用，外部的代码就执行了
+
+            fn(obj);
+          }
+        };
+        console.log(111);
+      }
+
+      let url = "http://localhost:3000/todos";
+
+      ajaxGet({
+        url: url,
+        //回调函数--监听ajax什么时候成功
+        fn(res) {
+          console.log("ajax请求成功 fn");
+          console.log(res);
+        },
+      });
+    </script>
+  </body>
+</html>

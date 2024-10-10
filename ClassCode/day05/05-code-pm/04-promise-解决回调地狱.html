@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /* 
+            promise规范  
+                早期一个程序员 想出来的一种方法 封装了异步操作（回调函数）， 第三方库 
+                后来es6 语法层面 推出 构造函数Promise 来解决回调地狱问题
+                    === 封装了异步操作（回调函数）
+
+                    Promise-> 承诺，许诺，  你只要按照promise的用法，封装异步操作，promise就承诺你 不会出现回调地狱
+
+
+                  Promise --是一个构造函数 
+                    ,这个函数有一个参数函数callback,
+                        这个参数函数又有两个形参  resolve,reject ，这个两个形参也是函数
+                            resolve 函数 解决，完成的意思
+                            reject 函数 拒绝，失败的意思
+
+                    要求***这个参数函数里面可以写异步操作 -- 并且异步操作成功的时候，调用resolve，，，resolve一旦执行了，
+                                                        p的then就会执行，resolve的实参可以传递给then的形参
+                                                       -- 并且异步操作失败的时候，调用reject，调用reject，然后 p.catch就会执行，并且 reject的实参，会给catch的形参
+
+
+
+
+
+
+        */
+      console.log("111");
+      /*       let p = new Promise(function (resolve, reject) {
+        console.log(2222);
+        // ***这个参数函数里面可以写异步操作
+        setTimeout(() => {
+          //异步操作成功了 调用resolve  ,promise对象就知道了，promise内部异步操作成功了
+          //****resolve(实参) 可以传递给then 里面函数的形参--
+          console.log("延时器成功 红");
+
+          //   resolve(99999);
+          //***异步操作失败了，调用reject，然后 p.catch就会执行，并且 reject的实参，会给catch的形参
+          reject(11111);
+        }, 2000);
+      });
+      //promise对象里面的异步操作成功以后，就会执行promsie对象的then方法 (执行的then的实参函数)
+      p.then(function (r) {
+        console.log("p，then  ");
+        console.log("绿");
+        console.log(r);
+      });
+      p.catch(function (err) {
+        console.log(err);
+      }); */
+
+      //   promise 把异步回调函数嵌套 --改变了 --- 异步 顺序写法--避免的回调函数的嵌套
+
+      //promise的链式调用
+
+      new Promise(function (resolve, reject) {
+        console.log(2222);
+        // ***这个参数函数里面可以写异步操作
+        setTimeout(() => {
+          //异步操作成功了 调用resolve  ,promise对象就知道了，promise内部异步操作成功了
+          //****resolve(实参) 可以传递给then 里面函数的形参--
+          console.log("延时器成功 红");
+
+          //   resolve(99999);
+          //***异步操作失败了，调用reject，然后 p.catch就会执行，并且 reject的实参，会给catch的形参
+          reject(11111);
+        }, 2000);
+      })
+        .then(function (r) {
+          console.log("p，then  ");
+          console.log("绿");
+          console.log(r);
+          //   then的返回值就是当前的promise对象
+        })
+        .catch(function (err) {
+          console.log(err);
+        });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script src="./ajax.js"></script>
+    <script>
+      /*
+            回调函数内部套另一个 会回调函数，如果回调函数嵌套层数过多，就叫回调函数 ---代码可读性和维护性变的比较低
+        */
+
+      //先调用注册请求，成功以后再调用登录请求
+      let regUrl = "http://localhost:8888/users/register";
+      let loginUrl = "http://localhost:8888/users/login";
+      let username = "z" + parseInt(Math.random() * 10000);
+      ajax.post({
+        url: regUrl,
+        data: {
+          username: username,
+          password: "123456",
+          rpassword: "123456",
+          nickname: "adfasd",
+        },
+        success(r) {
+          console.log(r);
+          //注册成以后发起登录操作
+          ajax.post({
+            url: loginUrl,
+            data: {
+              username: username,
+              password: "123456",
+            },
+            success(r) {
+              console.log(r);
+              //denglu成以后发起登录操作
+            },
+          });
+        },
+      });
+
+      //   console.log(1);
+      //   console.log(2);
+    </script>
+  </body>
+</html>

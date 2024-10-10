@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script src="https://cdn.bootcdn.net/ajax/libs/axios/1.7.2/axios.min.js"></script>
+    <script src="./http.js"></script>
+    <script>
+      /* 
+            axios.js  Axios 是一个基于 promise 网络请求库
+
+                使用promise 封装了xhr请求
+
+                调用这个库里面的函数 返回的都是一个promise对象
+
+            中文文档
+            https://www.axios-http.cn/docs/intro
+
+            1-引入 
+                https://cdn.bootcdn.net/ajax/libs/axios/1.7.2/axios.min.js
+            2-axios的 api （对象，属性-方法）
+
+                1-种
+                    axios当成对象使用
+                    axios.get(url,{params:{搜索参数key1:Value1,搜索参数key2:Value2}})
+
+                    其他的请求-设置请求头-content-type字段 ，指定请求体的格式 --默认是json数据
+                    axios.post(url,请求体对象)
+                    axios.post(url,{username：‘’，password：‘’22})
+                    axios.put(url,请求体对象)
+                    axios.patch(url,请求体对象)
+                    axios.delete(url)
+
+                2-种
+                    axios当函数使用
+                    axios({
+                        url,
+                        method:'GET',
+                        params:{搜索参数key1:Value1}
+                    })
+
+                    请求体的格式 --默认是json数据
+                    axios({
+                        url,
+                        method:'POST',
+                        data:{请求体参数key1:Value1}
+                        headers:{
+                            'content-type':'application/json' //这是默认值 自动将请求体转为json数据
+                            'content-type':'application/x-www-form-urlencoded'
+                                // 自动将请求体转为 表单搜索串
+
+                                其他的请求头，根据接口文档要求
+                             'ahto----':'token'   
+
+                        }
+
+                    })
+
+                     axios({
+                        url,
+                        method:'PUT',
+                        data:{请求体参数key1:Value1}
+                    })
+                   axios({
+                        url,
+                        method:'PATCH',
+                        data:{请求体参数key1:Value1}
+                    })
+
+                    axios({
+                        url,
+                        method:'DELETE',
+                    })
+                3-种
+                        创建了axios对象 实例=返回一个axios对象
+                   let http =  axios.create({
+                        //请求的统一的前缀--基地址--- 统一配置--下面使用http变量发起的请求会自动添加请求地址，也就是 后面的请求就不需要添加基地址
+                        baseURL:'http://localhost:8888'，
+                        headers：{}，//请求头配置
+                        'content-type':''//默认也是json
+
+                        //请求的的超时时间 5000ms  超过5秒服务器没有返回数据，就认为这个请求失败了
+                        timeout: 5000
+                   })
+                    // 创建实例后修改默认值
+                    http.defaults.headers.common['Authorization'] = AUTH_TOKEN;
+
+                   这个http对象，可以使用 1-和2 里面的用法
+                   http.get('/users/login').then.catch
+
+                   http({
+                    method:'get',
+                    url:'/uses/reg'
+                   })
+
+
+              ****服务器返回的数据
+                  http({
+                    method:'get',
+                    url:'/uses/reg'
+                   }).then(r=>{
+                    r// r 不是服务器返回的数据---r是aixos自己定义一个对象
+                    r.data//才是服务器返回的数据
+                   }).catch
+                    
+
+        */
+
+      http({
+        url: "/goods/list",
+        method: "GET",
+        params: { current: 1, pagesize: 3 },
+      }).then((r) => {
+        console.log(r);
+        console.log(r.data); //服务器返回的数据
+      });
+
+      http({
+        url: "/users/login",
+        method: "POST",
+        data: {
+          username: "zhangsan123",
+          password: "123456",
+        },
+      }).then((r) => {
+        console.log(r);
+        console.log(r.data); //服务器返回的数据
+      });
+    </script>
+  </body>
+</html>

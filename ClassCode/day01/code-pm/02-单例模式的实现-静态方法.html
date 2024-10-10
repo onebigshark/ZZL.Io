@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //记录是否是第一次执行 函数，并且保存第一次创建的dog对象
+
+      class Dog {
+        //静态属性- 类似全局变量--》Dog.obj
+        static obj = null;
+        //判断 这个方法是否是第一次调用
+        // 如果是,创建一个new Dog 对象(同时保存第一次创建的对象到一个全局变量上),返回这个对象,
+        //如果不是,直接返回第一次创建的对象（返回全局变量的值）
+        static shareInstance() {
+          //
+          if (Dog.obj === null) {
+            // console.log("第一次调用");
+            Dog.obj = new Dog();
+          }
+          return Dog.obj;
+        }
+      }
+      let d3 = Dog.shareInstance();
+      let d4 = Dog.shareInstance();
+      let d5 = Dog.shareInstance();
+      console.log(d3);
+      console.log(d4);
+
+      //true  对象的地址是一样的
+      console.log(d4 === d3);
+    </script>
+  </body>
+</html>

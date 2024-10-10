@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      img {
+        width: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <ul>
+      <!-- <li>
+        <h2></h2>
+        <img src="" alt="" />
+        <p></p>
+      </li> -->
+    </ul>
+    <script>
+      let method = "GET";
+      //商品页码数--一般打开页面 默认获取第一页的数据
+      let current = 1;
+      //   一页多少条数据
+      let pagesize = 10;
+      //get请求，参数放到url 后面
+      let url = `http://localhost:8888/goods/list?current=${current}&pagesize=${pagesize}`;
+      let xhr = new XMLHttpRequest();
+      xhr.open(method, url);
+      xhr.send();
+      xhr.onload = function () {
+        if (xhr.status == 200) {
+          let obj = JSON.parse(xhr.responseText);
+          //打印--数据，看看长什么样，怎么处理
+          console.log(obj);
+          //服务器返回的数据中一般都有 至少 两个属性
+          //code -表示这个请求是成功是失败，得看接口文件
+          //message--提示信息
+          console.log(obj.list);
+          //   let arr = [...obj.list];
+          obj.list;
+          //根据商品数组 生成页面 结构
+
+          let ulStr = "";
+          obj.list.forEach((v) => {
+            //v 是数组中元素，看打印数据，元素有哪些属性
+            ulStr += `   <li>
+                            <h2>${v.title}</h2>
+                            <img src="${v.img_big_logo}" alt="" />
+                            <p>${v.price}</p>
+                        </li>`;
+          });
+          document.querySelector("ul").innerHTML = ulStr;
+        }
+      };
+    </script>
+  </body>
+</html>

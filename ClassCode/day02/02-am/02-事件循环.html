@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      /* 
+        
+            事件循环 --event loop---控制js代码执行的一种机制
+
+            同步和异步
+
+
+            异步在js中分成了两种
+                异步宏任务--》延时器--定时器--ajax
+                异步微任务 --》queueMicrotask 创建一个延时0ms的异步微任务，promise.then()  await后面的代码
+
+
+        事件循环
+            第一次事件循环，会先执行  宏任务队列（正在排队）中一个宏任务（第一次会把整个js代码当成一次宏任务去执行），再清空微任务队列中所有微任务（正在排队）
+
+            其他次，会先执行  宏任务队列（正在排队）中一个宏任务，再清空微任务队列中所有微任务（正在排队）
+        */
+
+      //同步，按照顺序依次执行
+      //异步
+
+      console.log(1);
+
+      //延时0ms的异步操作
+      queueMicrotask(function () {
+        console.log("queueMicrotask");
+        setTimeout(() => {
+          //延时器是异步的 （js中耗时操作都设计成了异步，不会卡主界面）
+          console.log("setTimeout 2");
+        }, 0);
+      });
+      setTimeout(() => {
+        //延时器是异步的 （js中耗时操作都设计成了异步，不会卡主界面）
+        console.log("setTimeout");
+        queueMicrotask(function () {
+          console.log("queueMicrotask 2");
+        });
+      }, 0);
+
+      //   for (let i = 0; i < 10000900; i++) {
+      //     console.log(i);
+      //   }
+      console.log(2);
+
+      /* 
+
+   第一次宏任务   
+
+      log-1--立刻执行 
+      微任务队列[]
+      宏任务队列[]
+
+         //延时0ms的异步操作
+      queueMicrotask(function () {
+        console.log("queueMicrotask");
+              setTimeout(() => {
+              //延时器是异步的 （js中耗时操作都设计成了异步，不会卡主界面）
+              console.log("setTimeout 2");
+            }, 0);
+      });
+      异步微任务，延时0ms， 会立刻放入 微任务队列 
+
+       微任务队列[ log（queueMicrotask）-> setTimeout-log(timeout 2)  ]
+       宏任务队列[]
+
+
+
+        setTimeout(() => {
+        //延时器是异步的 （js中耗时操作都设计成了异步，不会卡主界面）
+          console.log("setTimeout");
+            queueMicrotask(function () {
+              console.log("queueMicrotask 2");
+            });
+      }, 0);
+
+      异步宏任务--延时0ms 放入宏任务队列
+
+       微任务队列[ log（queueMicrotask）-> setTimeout-log(timeout 2)  ]
+      
+       宏任务队列[ fn=》log（settimeout->queueMicrotask(log(queueMicrotask 2))]
+
+
+
+       2-》立即执行
+
+
+     微任务队列[ log（queueMicrotask）-> setTimeout-log(timeout 2)  ]
+      
+       宏任务队列[ fn=》log（settimeout->queueMicrotask(log(queueMicrotask 2))]
+
+
+
+       1---2----
+
+
+       微任务队列[ log（queueMicrotask）-> setTimeout-log(timeout 2)  ]
+      
+       宏任务队列[ fn=》log（settimeout->queueMicrotask(log(queueMicrotask 2))]
+
+ 第一次 微任务队列中所有微任务
+
+         log（queueMicrotask）-> setTimeout-log(timeout 2)） -》执行
+
+          微任务队列[  ]
+           宏任务队列[ fn=》log（settimeout->queueMicrotask(log(queueMicrotask 2)) , log(timeout 2)]
+
+
+log 1 2  queueMicrotask
+
+
+         微任务队列[  ]
+           宏任务队列[ fn=》log（settimeout->queueMicrotask(log(queueMicrotask 2)) , log(timeout 2)]
+
+           
+  第二次 --宏任务队列（正在排队）中一个宏任务，再清空微任务队列中所有微任务（正在排队）
+
+     微任务队列[  ]
+       宏任务队列[  log(timeout 2)]
+      
+       fn=》log（settimeout
+       queueMicrotask(log(queueMicrotask 2))
+
+        微任务队列[log(queueMicrotask 2)  ]
+           宏任务队列[  log(timeout 2)]
+
+
+
+
+   log（settimeout）
+
+
+       微任务队列[  ]
+           宏任务队列[  log(timeout 2)]
+
+   第二次 微
+
+   log(queueMicrotask 2)
+
+
+    微任务队列[  ]
+    宏任务队列[  log(timeout 2)]
+
+
+  第三次-
+      宏  log(timeout 2)
+
+      微任务队列[  ]
+    宏任务队列[  ]
+
+
+
+log 1 2  queueMicrotask  settimeout queueMicrotask 2  timeout 2
+
+
+
+
+
+        
+
+
+
+
+
+
+
+      
+      */
+
+      //   https://todomvc.com/examples/vue/dist/#/
+      //   todolist--经典--
+    </script>
+  </body>
+</html>

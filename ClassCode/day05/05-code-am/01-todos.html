@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="text" name="" id="ipt" />
+    <button id="btn" onclick="sendFn()">发布</button>
+    <ul>
+      <!-- <li>
+        <input type="checkbox" name="" id="" />
+        <p></p>
+        <button>删除</button>
+      </li> -->
+    </ul>
+    <script>
+      /* 
+        1-列表
+          调用列表接口-》数组-》结构-li-》ul 
+
+           封装一个函数loadList
+
+         2-发布
+            点击按钮的时候，获取输入框的值 ，调用发布接口，成功以后刷新列表
+         3-删除
+            给删除按钮添加一个点击事件， 行内事件，传入id到删除函数内部    ,调用删除接口，刷新列表
+            
+         4-修改完成状态
+             给checkbox添加一个change事件， 行内事件，传入id到删除函数内部    ,调用删除接口，刷新列表
+               
+      */
+      let url = "http://localhost:3000/todos";
+      let arr = [];
+
+      function loadList() {
+        let method = "GET";
+        // 变量名跟接口参数一样
+
+        let xhr = new XMLHttpRequest();
+        xhr.open(method, url);
+
+        xhr.send();
+        xhr.onload = function () {
+          console.log("刷新列表成功");
+          if (/^2/.test(xhr.status)) {
+            let resObj = JSON.parse(xhr.responseText);
+            // console.log(resObj);
+
+            arr = resObj;
+            let liArr = resObj.map(
+              (v) => `
+              <li>
+                <input onchange="updateFn(${
+                  v.id
+                },this)" type="checkbox" name="" id="" ${
+                v.completed ? "checked" : ""
+              } />
+                <p>${v.title}</p>
+                <button onclick="delFn(${v.id})">删除</button>
+              </li>
+            `
+            );
+            // console.log(liArr);
+            document.querySelector("ul").innerHTML = liArr.join("");
+          } else {
+            // console.log(xhr.status);
+          }
+        };
+      }
+      loadList();
+
+      // 删除
+      function delFn(id) {
+        console.log(id);
+        let xhr = new XMLHttpRequest();
+        xhr.open("DELETE", url + "/" + id);
+        xhr.send();
+        xhr.onload = function () {
+          if (xhr.status == 200) {
+            loadList();
+          }
+        };
+      }
+      //修改
+      function updateFn(id, ck) {
+        console.log(ck);
+        console.log(ck.checked);
+        console.log(id);
+        console.log(arr);
+        //根据id从数组中找到要修改的数据对象（）
+        let obj = arr.find((v) => v.id == id);
+        console.log(obj);
+        //要修改的值
+        let completed = !obj.completed;
+
+        console.log(id);
+        let xhr = new XMLHttpRequest();
+        xhr.open("PATCH", url + "/" + id);
+        xhr.setRequestHeader("content-type", "application/json");
+        //请求体传入json数据
+        // let body = { completed };
+        let body = { completed: ck.checked };
+        xhr.send(JSON.stringify(body));
+        xhr.onload = function () {
+          if (xhr.status == 200) {
+            loadList();
+          }
+        };
+      }
+
+      function sendFn() {
+        //发布请求和loadlist请求 基本是同时间发起的，两个请求都是异步
+        //？谁先成功一定吗？不一定
+        post();
+        // loadList();
+      }
+      function post() {
+        let ipt = document.querySelector("#ipt");
+        let title = ipt.value;
+        let completed = false;
+        let body = { title, completed };
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", url);
+        xhr.setRequestHeader("content-type", "application/json");
+        //请求体传入json数据
+        xhr.send(JSON.stringify(body));
+        xhr.onload = function () {
+          if (/^2/.test(xhr.status)) {
+            console.log("发布成功");
+            //想要让异步请求有顺序，，必须嵌套，刷新列表请求 套入 发布请求成功里面
+            loadList();
+          }
+        };
+      }
+    </script>
+  </body>
+</html>

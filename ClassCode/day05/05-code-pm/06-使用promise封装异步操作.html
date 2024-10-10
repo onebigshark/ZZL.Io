@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //使用promise封装异步操作，
+      // 写一个函数
+      //  函数内部创建一个prmise对象，promise对象里面写异步操作，成功以后调用resolve，失败以后调用reject
+      // 这个函数内部返回promise对象
+      function wait() {
+        let p = new Promise(function (resolve, reject) {
+          setTimeout(() => {
+            resolve();
+          }, 2000);
+        });
+
+        return p;
+      }
+
+      let p = wait(2000);
+      p.then(function () {
+        console.log("2000以后执行");
+      });
+
+      //
+    </script>
+  </body>
+</html>

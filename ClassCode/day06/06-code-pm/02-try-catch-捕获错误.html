@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      try {
+        // 创建一个错误对象
+        let err = new Error("缺少参数");
+        //抛出错误
+        throw err;
+        //控制台中就会出现红色的错误
+      } catch (error) {
+        console.log(error);
+        // 缺少参数--错误的原因
+        console.log(error.message);
+      }
+
+      //   async function fn() {
+      //     // await 只会等成功 ，失败以后没有办法写代码处理了
+      //     await new Promise(function (resolve, reject) {
+      //       //异步操作--
+      //       setTimeout(() => {
+      //         // reject promise的状态会改成失败，并且底层会抛出一个错误
+      //         reject();
+      //       }, 2000);
+      //     });
+      //     console.log(1111);
+      //   }
+
+      async function fn() {
+        // await 只会等成功 ，失败以后没有办法写代码处理了
+        // 配置try-catch可以解决这个问题
+        try {
+          await new Promise(function (resolve, reject) {
+            //异步操作--
+            setTimeout(() => {
+              // reject promise的状态会改成失败，并且底层会抛出一个错误
+              reject("检测网络");
+            }, 2000);
+          });
+        } catch (error) {
+          console.log(error);
+        }
+        console.log(1111);
+      }
+      fn();
+    </script>
+  </body>
+</html>

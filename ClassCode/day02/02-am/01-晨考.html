@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      var arr = [4, 5, 6];
+      //   forEach 叫高阶函数（函数的参数也是一个函数）
+      arr.forEach(function (v, i) {
+        console.log(v, i);
+      });
+
+      //   arr.forEach = function(callback){
+      //     callback(4,0)
+      //     callback(5,1)
+      //     callback(6,3)
+      //   }
+
+      let resArr = arr.map(function (v, i) {
+        console.log(v, i);
+        return v * 100;
+      });
+      console.log(resArr); //[400,500,600]
+
+      arr.map = function (callback) {
+        let newArr = [];
+        let r = callback(4, 0);
+        //
+        newArr.push(r);
+        let r2 = callback(5, 1);
+        newArr.push(r2);
+
+        callback(6, 3);
+      };
+    </script>
+  </body>
+</html>

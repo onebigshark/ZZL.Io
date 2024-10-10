@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script src="./js/lodash.min.js"></script>
+    <script>
+      /*
+        深拷贝的实现方法
+            1- lodash  cloneDeep 递归拷贝了一个对象的所有层
+            2- JSON.parse(json.stringify(obj))  利用json。parse 根据json字符串创建一个新对象
+                缺点：json数据，属性值不能是函数
+                             循环引用会报错
+            3-自己封装一个递归函数，递归拷贝对象                 
+
+        */
+
+      //   let child = {
+      //     name: "张三锋",
+      //     age: 1,
+      //   };
+
+      let obj = {
+        name: "张三",
+        age: 28,
+        // run() {},
+        // child: child,
+        child: {
+          name: "张三丰",
+          age: 1,
+          child: {
+            name: "zhangsanfeng2",
+          },
+        },
+      };
+
+      //   Converting circular structure to JSON  json转换的时候，如果有循环引用会报错
+      //   child.father = obj;
+
+      //   1- lodash
+      // _.cloneDeep(value)
+      // 这个方法类似_.clone，除了它会递归拷贝 value。（注：也叫深拷贝）。
+
+      let obj2 = _.cloneDeep(obj);
+      console.log(obj2);
+      console.log(obj);
+
+      //外层地址不等，内层也不等--深拷贝
+      console.log(obj == obj2); //false
+      console.log(obj.child == obj2.child); //false
+
+      //2-
+      let obj3 = JSON.parse(JSON.stringify(obj));
+      console.log(obj3);
+      console.log(obj == obj3);
+      console.log(obj.child == obj3.child);
+
+      //3- 自己封装一个 深拷贝函数
+
+      function cloneDeep(value) {
+        console.log("cloneDeep", value);
+        // 遍历对象，把原对象里面的内容都都添加到新对象中
+        let newObj = {};
+        for (let key in value) {
+          //key 属性名
+          //v 属性值
+          let v = value[key];
+          //v ？ 有可能是一个对象
+          if (typeof v === "object") {
+            //v是一个对象
+            // 创建一个的v  把新的v 直接赋值 newObj【key】
+            //调用自己，创建一个new的v
+            let newV = cloneDeep(v);
+            //for( let key2 in v){   v2=v[key]  for{ for { for}}  }
+            newObj[key] = newV;
+          } else {
+            newObj[key] = v;
+          }
+        }
+        //返回新对象
+        return newObj;
+      }
+      let obj5 = cloneDeep(obj);
+      console.log(obj5);
+      console.log(obj5 == obj);
+      console.log(obj5.child == obj.child);
+    </script>
+  </body>
+</html>
