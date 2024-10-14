@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/vue/3.4.33/vue.global.min.js"></script> -->
+    <script src="./vue.global.min.js"></script>
+  </head>
+  <body>
+    <script>
+      /* 
+            把vue当成一个简单的第三方库（核心 视图） ，不当成一个框架
+                1-引入js文件 （通过 CDN 使用 Vue）  vue.global.js
+
+                2-使用
+                    这个js提供一个Vue全局变量--对象
+        */
+    </script>
+
+    <!--  -->
+    <div id="app">
+      <!-- html模板里面  使用双大括号 里面使用data中定义的变量 -->
+      <!-- vue的插值语法---模板语法 -->
+      {{ message }}
+    </div>
+
+    <script>
+      // https://cn.vuejs.org/guide/quick-start.html
+
+      //解构赋值 获取vue对象中一个函数 createApp
+      //createApp-》创建vue应用（包含vue语法东西）
+      const { createApp } = Vue;
+
+      //创建一个vue对象（vue实例）
+      let app = createApp({
+        //选项式语法--（写代码就是vue的参数对象中写 属性和属性值）
+        //也叫配置项
+        //一个配置项（选项）就可以完成一个功能
+
+        // data配置项--数据--是一个函数，函数中return了一个对象，这个返回的对象中定义的属性
+        //  咱们现在叫 变量（数据--状态）
+        //----data中定义的数据（状态，可以页面中使用）
+        data: function () {
+          return {
+            message: "Hello Vue!",
+          };
+        },
+      });
+      //把vue 作用于 id为 app的div中（div可以使用  双大括号 那种语法--vue提供）
+      //---把vue实例 挂载到 id为app的div中（这个div可以使用vue的 双大括号语法）
+      app.mount("#app");
+    </script>
+  </body>
+</html>
