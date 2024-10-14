@@ -1,9 +1,14 @@
 <script setup>
-defineProps({
-  msg: {
-    type: String,
-    required: true
-  }
+export default({
+
+ data(){
+   return {
+     msg: {
+       type: String,
+       required: true
+     }
+   }
+ }
 })
 </script>
 
